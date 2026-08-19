@@ -28,3 +28,9 @@ jobs:
 
       - name: Deploy resume to S3
         run: aws s3 sync ./resume s3://tracy-champion-resume-prod --delete
+
+      - name: Invalidate CloudFront cache
+        run: |
+          aws cloudfront create-invalidation \
+            --distribution-id E15GVSED2TWOI8 \
+            --paths "/*"
