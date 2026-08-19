@@ -1,0 +1,30 @@
+name: Deploy Resume to AWS
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "resume/**"
+      - ".github/workflows/deploy-resume.yml"
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v5
+        with:
+          role-to-assume: ${{ secrets.AWS_RESUME_DEPLOY_ROLE_ARN }}
+          aws-region: us-east-2
+
+      - name: Deploy resume to S3
+        run: aws s3 sync ./resume s3://tracy-champion-resume-prod --delete
