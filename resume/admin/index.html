@@ -44,17 +44,37 @@
     </button>
   </div>
 
-  <div id="authenticated">
+<div id="authenticated">
 
-    <p>
-      You are authenticated.
-    </p>
+  <p>You are authenticated.</p>
 
-    <button id="logout-button">
-      Sign out
-    </button>
+  <h2>Edit Profile Headline</h2>
 
-  </div>
+  <label for="headline">Headline</label>
+
+  <br><br>
+
+  <input
+    type="text"
+    id="headline"
+    style="width: 100%; padding: 10px; box-sizing: border-box;"
+  >
+
+  <br><br>
+
+  <button id="save-profile-button">
+    Save Headline
+  </button>
+
+  <p id="save-status"></p>
+
+  <br>
+
+  <button id="logout-button">
+    Sign out
+  </button>
+
+</div>
 
   <script src="/admin/admin.js?v=1"></script>
 

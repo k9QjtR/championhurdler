@@ -10,6 +10,9 @@ const REDIRECT_URI =
 const LOGOUT_URI =
   "https://resume.championhurdler.com/";
 
+const RESUME_API =
+  "https://loy1awpsg1.execute-api.us-east-2.amazonaws.com";  
+
 const SCOPES =
   "openid email";
 
@@ -24,10 +27,78 @@ document.addEventListener("DOMContentLoaded", async () => {
     .getElementById("logout-button")
     .addEventListener("click", logout);
 
+  document
+    .getElementById("save-profile-button")
+    .addEventListener("click", saveProfile);  
+
   await handleAuthentication();
 
 });
 
+async function saveProfile() {
+
+  const saveStatus =
+    document.getElementById("save-status");
+
+  try {
+
+    const accessToken =
+      sessionStorage.getItem("access_token");
+
+    if (!accessToken) {
+      throw new Error("You are not authenticated.");
+    }
+
+    const headline =
+      document.getElementById("headline").value.trim();
+
+    if (!headline) {
+      throw new Error("Headline is required.");
+    }
+
+    saveStatus.textContent = "Saving...";
+
+    const response = await fetch(
+      `${RESUME_API}/v1/resume/blocks/PROFILE`,
+      {
+        method: "PUT",
+
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${accessToken}`
+        },
+
+        body: JSON.stringify({
+          headline: headline
+        })
+      }
+    );
+
+    const result = await response.json();
+
+    if (!response.ok) {
+      throw new Error(
+        result.message ||
+        `API returned ${response.status}`
+      );
+    }
+
+    saveStatus.textContent =
+      "Profile updated successfully.";
+
+  } catch (error) {
+
+    console.error(
+      "Unable to update profile:",
+      error
+    );
+
+    saveStatus.textContent =
+      `Update failed: ${error.message}`;
+
+  }
+
+}
 
 async function handleAuthentication() {
 
