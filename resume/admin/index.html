@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Resume Admin</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 60px auto;
+      padding: 0 24px;
+    }
+
+    button {
+      padding: 12px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    #status {
+      margin: 20px 0;
+    }
+
+    #authenticated {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>Resume Admin</h1>
+
+  <div id="status">
+    Checking authentication...
+  </div>
+
+  <div id="unauthenticated">
+    <button id="login-button">
+      Sign in
+    </button>
+  </div>
+
+  <div id="authenticated">
+
+    <p>
+      You are authenticated.
+    </p>
+
+    <button id="logout-button">
+      Sign out
+    </button>
+
+  </div>
+
+  <script src="/admin/admin.js?v=1"></script>
+
+</body>
+</html>
