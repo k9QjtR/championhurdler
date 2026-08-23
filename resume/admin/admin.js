@@ -11,8 +11,7 @@ const LOGOUT_URI =
   "https://resume.championhurdler.com/";
 
 const RESUME_API =
-  "https://loy1awpsg1.execute-api.us-east-2.amazonaws.com";  
-
+  "https://loy1awpsg1.execute-api.us-east-2.amazonaws.com";
 const SCOPES =
   "openid email";
 
