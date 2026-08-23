@@ -5,7 +5,7 @@ const CLIENT_ID =
   "6tshfqmsongku6ve2p09j40ji0";
 
 const REDIRECT_URI =
-  "https://resume.championhurdler.com/admin/index.html";
+  "https://resume.championhurdler.com/admin/";
 
 const LOGOUT_URI =
   "https://resume.championhurdler.com/";
