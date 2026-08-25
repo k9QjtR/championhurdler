@@ -15,6 +15,9 @@ const RESUME_API =
 const SCOPES =
   "openid email";
 
+const RESUME_GET_API =
+  "https://loy1awpsg1.execute-api.us-east-2.amazonaws.com/v1/resume";  
+
 
 document.addEventListener("DOMContentLoaded", async () => {
 
@@ -34,6 +37,49 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 });
 
+async function loadProfile() {
+  try {
+    const response = await fetch(RESUME_GET_API);
+
+    if (!response.ok) {
+      throw new Error(
+        `Resume API returned ${response.status}`
+      );
+    }
+
+    const resume = await response.json();
+    const profile = resume.profile;
+
+    if (!profile) {
+      throw new Error("Profile not found.");
+    }
+
+    document.getElementById("eyebrow").value =
+      profile.eyebrow || "";
+
+    document.getElementById("name").value =
+      profile.name || "";
+
+    document.getElementById("headline").value =
+      profile.headline || "";
+
+    document.getElementById("summary-1").value =
+      profile.summaries?.[0] || "";
+
+    document.getElementById("summary-2").value =
+      profile.summaries?.[1] || "";
+
+  } catch (error) {
+    console.error(
+      "Unable to load profile:",
+      error
+    );
+
+    document.getElementById("save-status").textContent =
+      `Unable to load profile: ${error.message}`;
+  }
+}
+
 async function saveProfile() {
 
   const saveStatus =
@@ -48,8 +94,24 @@ async function saveProfile() {
       throw new Error("You are not authenticated.");
     }
 
+    const eyebrow =
+      document.getElementById("eyebrow").value.trim();
+
+    const name =
+      document.getElementById("name").value.trim();
+
     const headline =
       document.getElementById("headline").value.trim();
+
+    const summary1 =
+      document.getElementById("summary-1").value.trim();
+
+    const summary2 =
+      document.getElementById("summary-2").value.trim();
+
+    if (!name) {
+      throw new Error("Name is required.");
+    }
 
     if (!headline) {
       throw new Error("Headline is required.");
@@ -68,7 +130,13 @@ async function saveProfile() {
         },
 
         body: JSON.stringify({
-          headline: headline
+          eyebrow,
+          name,
+          headline,
+          summaries: [
+            summary1,
+            summary2
+          ]
         })
       }
     );
@@ -94,9 +162,7 @@ async function saveProfile() {
 
     saveStatus.textContent =
       `Update failed: ${error.message}`;
-
   }
-
 }
 
 async function handleAuthentication() {
@@ -353,6 +419,8 @@ function updateUI() {
     setStatus(
       "Signed in successfully."
     );
+
+    loadProfile();
 
   } else {
 
